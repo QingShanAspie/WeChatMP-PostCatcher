@@ -92,7 +92,7 @@ if __name__ == "__main__":
     COLOR = ["success", "warning", "info", "danger", "secondary"]
 
     # 定义TAG
-    TAG = ["ASD", "Austim", "孤独症", "Aspie", "自闭症", "孤独症谱系", "AS", "介绍"]
+    TAG = ["ASD", "Austim", "孤独症", "Aspie", "孤独", "孤独症谱系", "AS", "介绍"]
 
     print(TagRandom())
     
