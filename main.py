@@ -31,21 +31,9 @@ def Timestamp2Datetime(stampstr):
 def TagRandom():
     TagLen = len(TAG) - 1
     res = ''
-    item = random.randint(1, 5)
-    if item == 1:
-        res = TAG[random.randint(0, TagLen)]
-    elif item == 2:
-        for i in random.sample(range(0, TagLen), 2):
-            res += TAG[i] + ", "
-    elif item == 3:
-        for i in random.sample(range(0, TagLen), 3):
-            res += TAG[i] + ", "
-    elif item == 4:
-        for i in random.sample(range(0, TagLen), 4):
-            res += TAG[i] + ", "
-    elif item == 5:
-        for i in random.sample(range(0, TagLen), 5):
-            res += TAG[i] + ", "
+    item = random.randint(2, 6)
+    for i in random.sample(range(0, TagLen), item):
+        res += TAG[i] + ", "
     return str(res)[0: int(len(res) - 2)]
 
 
