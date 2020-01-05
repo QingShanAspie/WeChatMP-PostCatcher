@@ -107,28 +107,29 @@ if __name__ == "__main__":
     TAG = ["ASD", "Austim", "孤独症", "Aspie", "自闭症", "孤独症谱系", "AS", "介绍"]
 
     print(TagRandom())
-    #
-    # # 解析JSON
-    # ret = GetArticleList('json')
-    # ret.sort(key=lambda x: x.pubdate, reverse=True)
-    #
-    # # 判断文件夹，不存在便创建
-    # if not os.path.exists('post'):
-    #     os.makedirs('post')
-    #     pass
-    #
-    # for art in ret:
-    #     if art.title != "分享图片":
-    #         if art.digest == "分享一篇文章。":
-    #             art.digest = art.title
-    #         Post1 = "---"
-    #         Post2 = "\ntitle: " + art.title
-    #         Post3 = "\ntags: "
-    #         Post4 = "\ncolor: " + COLOR[random.randint(0, len(COLOR) - 1)]
-    #         Post5 = "\ndescription: " + art.digest
-    #         Post6 = "\nexternal_url: " + art.url
-    #         Post7 = "\n---"
-    #         mdfile = Post1 + Post2 + Post3 + Post4 + Post5 + Post6 + Post7
-    #         SaveFile("post/" + art.pubdate + ".md", mdfile)
-    #         print("Export: " + art.title + " Done!")
-    #         pass
+    
+    # 解析JSON
+    ret = GetArticleList('json')
+    ret.sort(key=lambda x: x.pubdate, reverse=True)
+    
+    # 判断文件夹，不存在便创建
+    if not os.path.exists('post'):
+        os.makedirs('post')
+        pass
+    
+    for art in ret:
+        if art.title != "分享图片":
+            if art.digest == "分享一篇文章。":
+                art.digest = art.title
+                
+            Post1 = "---"
+            Post2 = "\ntitle: " + art.title
+            Post3 = "\ntags: " + "[" + TagRandom() + "]"
+            Post4 = "\ncolor: " + COLOR[random.randint(0, len(COLOR) - 1)]
+            Post5 = "\ndescription: " + art.digest
+            Post6 = "\nexternal_url: " + art.url
+            Post7 = "\n---"
+            mdfile = Post1 + Post2 + Post3 + Post4 + Post5 + Post6 + Post7
+            SaveFile("post/" + art.pubdate + ".md", mdfile)
+            print("Export: " + art.title + " Done!")
+            pass
