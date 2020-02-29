@@ -93,8 +93,6 @@ if __name__ == "__main__":
 
     # 定义TAG
     TAG = ["ASD", "Austim", "孤独症", "Aspie", "孤独", "孤独症谱系", "AS", "介绍"]
-
-    print(TagRandom())
     
     # 解析JSON
     ret = GetArticleList('json')
@@ -104,12 +102,19 @@ if __name__ == "__main__":
     if not os.path.exists('post'):
         os.makedirs('post')
         pass
+        
+    if not os.path.exists('post/exp'):
+        os.makedirs('post/exp')
+        pass
     
+    count = 0
     for art in ret:
         if art.title != "分享图片":
             if art.digest == "分享一篇文章。":
                 art.digest = art.title
-                
+
+            if '\n' in str(art.title):
+                art.title = str(art.title).replace("\n", " ")
             Post1 = "---"
             Post2 = "\ntitle: " + art.title
             Post3 = "\ntags: " + "[" + TagRandom() + "]"
@@ -117,7 +122,15 @@ if __name__ == "__main__":
             Post5 = "\ndescription: " + art.digest
             Post6 = "\nexternal_url: " + art.url
             Post7 = "\n---"
+            count = count + 1
             mdfile = Post1 + Post2 + Post3 + Post4 + Post5 + Post6 + Post7
-            SaveFile("post/" + art.pubdate + ".md", mdfile)
+            
+            if os.path.exists("post/" + art.pubdate + ".md"):
+                SaveFile("post/" + art.pubdate + str(count) + ".md", mdfile)
+                SaveFile("post/exp/" + art.pubdate + ".log", str(count))
+            else:
+                SaveFile("post/" + art.pubdate + ".md", mdfile)
+                SaveFile("post/exp/" + art.pubdate + ".log", str(count))
             print("Export: " + art.title + " Done!")
             pass
+    print("Count:" + str(count))
