@@ -115,6 +115,9 @@ if __name__ == "__main__":
 
             if '\n' in str(art.title):
                 art.title = str(art.title).replace("\n", " ")
+                
+            if '\n' in str(art.digest):
+                art.title = str(art.digest).replace("\n", "，")
             Post1 = "---"
             Post2 = "\ntitle: " + art.title
             Post3 = "\ntags: " + "[" + TagRandom() + "]"
