@@ -98,42 +98,44 @@ if __name__ == "__main__":
     ret = GetArticleList('json')
     ret.sort(key=lambda x: x.pubdate, reverse=True)
     
+    if os.path.exists('post'):
+        os.makedirs('post')
+        pass
+    
     # 判断文件夹，不存在便创建
     if not os.path.exists('post'):
         os.makedirs('post')
         pass
         
-    if not os.path.exists('post/exp'):
-        os.makedirs('post/exp')
-        pass
-    
     count = 0
     for art in ret:
         if art.title != "分享图片":
-            if art.digest == "分享一篇文章。":
-                art.digest = art.title
+            if art.digest != art.title:
+                if art.digest == "分享一篇文章。":
+                    art.digest = art.title
 
-            if '\n' in str(art.title):
-                art.title = str(art.title).replace("\n", " ")
+                if '\n' in str(art.title):
+                    art.title = str(art.title).replace("\n", " ")
+                    
+                if '\n' in str(art.digest):
+                    art.digest = str(art.digest).replace("\n", "，")
+                    
+                Post1 = "---"
+                Post2 = "\ntitle: " + art.title
+                Post3 = "\ntags: " + "[" + TagRandom() + "]"
+                Post4 = "\ncolor: " + COLOR[random.randint(0, len(COLOR) - 1)]
+                Post5 = "\ndescription: " + art.digest
+                Post6 = "\nexternal_url: " + art.url
+                Post7 = "\n---"
+                count = count + 1
+                mdfile = Post1 + Post2 + Post3 + Post4 + Post5 + Post6 + Post7
                 
-            if '\n' in str(art.digest):
-                art.title = str(art.digest).replace("\n", "，")
-            Post1 = "---"
-            Post2 = "\ntitle: " + art.title
-            Post3 = "\ntags: " + "[" + TagRandom() + "]"
-            Post4 = "\ncolor: " + COLOR[random.randint(0, len(COLOR) - 1)]
-            Post5 = "\ndescription: " + art.digest
-            Post6 = "\nexternal_url: " + art.url
-            Post7 = "\n---"
-            count = count + 1
-            mdfile = Post1 + Post2 + Post3 + Post4 + Post5 + Post6 + Post7
-            
-            if os.path.exists("post/" + art.pubdate + ".md"):
-                SaveFile("post/" + art.pubdate + str(count) + ".md", mdfile)
-                SaveFile("post/exp/" + art.pubdate + ".log", str(count))
-            else:
-                SaveFile("post/" + art.pubdate + ".md", mdfile)
-                SaveFile("post/exp/" + art.pubdate + ".log", str(count))
-            print("Export: " + art.title + " Done!")
-            pass
-    print("Count:" + str(count))
+                if os.path.exists("post/" + art.pubdate + ".md"):
+                    print("Export: " + art.title + " Done!")
+                    SaveFile("post/" + art.pubdate + str(count) + ".md", mdfile)
+                    #SaveFile("post/exp/" + art.pubdate + ".log", str(count))
+                else:
+                    print("Export: " + art.title + " Done! --- MORE MODE")
+                    SaveFile("post/" + art.pubdate + ".md", mdfile)
+                    #SaveFile("post/exp/" + art.pubdate + ".log", str(count))
+                print("Count:" + str(count))
